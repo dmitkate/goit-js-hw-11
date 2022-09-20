@@ -24,15 +24,15 @@ function onSearch(e) {
   }
     
     runFetches(query, page)
-    .then((r) => {
+    .then(({data}) => {
         
-        render(r.hits);
-        Notify.success(`We found ${r.totalHits} images.`); 
+        render(data.hits);
+        Notify.success(`We found ${data.totalHits} images.`); 
         simpleLightBox = new SimpleLightbox('.gallery a').refresh() 
          
              
     })
-    .catch(error => console.log(error))
+   // .catch(error => console.log(error))
 }
 function endOfcollectionCheck(totalHits, page){
     const totalPages = Math.ceil(totalHits / 40);
@@ -72,9 +72,9 @@ window.addEventListener('scroll', () => {
     
     if (docRect.bottom < document.documentElement.clientHeight + 150) {
         page+=1;
-        runFetches(query, page).then((r) => {
-        endOfcollectionCheck(r.totalHits, page);
-        render(r.hits);
+        runFetches(query, page).then(({data}) => {
+        endOfcollectionCheck(data.totalHits, page);
+        render(data.hits);
          simpleLightBox = new SimpleLightbox('.gallery a').refresh()               
     }).catch(error => console.log(error))
     }
